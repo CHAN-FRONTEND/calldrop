@@ -32,6 +32,8 @@ st.subheader('Dataset')
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
+    df = df.set_index('Datetime')
+    df['Start_Time_MM_DD_YYYY'] = pd.to_datetime(df.Start_Time_MM_DD_YYYY , format = '%Y%m%d')
     st.markdown('**Glimpse of dataset**')
     st.write(df)
 else:
@@ -66,7 +68,7 @@ if page == "Visualization":
 			try:
 				x_values = st.selectbox('X-axis', options = numeric_columns)
 				y_values = st.selectbox('Y-axis', options = numeric_columns)
-				plot = px.pie(data_frame=df, names=x_values, values=y_values)
+				plot = px.pie(data_frame=df, names=x_values, values=y_values, title='Pie Chart Comparisons')
 				st.plotly_chart(plot)
 			except Exception as e:
 				print(e)
